@@ -1,0 +1,296 @@
+<html>
+<head>
+	<title>
+		jQuerry Assignment2
+	</title>
+	<style>
+
+	.result{
+		color:blue;
+		font-size: 25px;
+	}
+
+	.small{
+		color:blue;
+		font-size: 10px;
+	}
+
+	.optionsdisplay{color: red}
+	.questiondisplay{color: green;font-size: 25px}
+	#buttonstyle{background-color: purple; width: 100px; height:50px;color: white; border-color: purple purple purple purple;}
+	#hai{
+		background-color: orange;
+		position: relative; 
+		margin: 5% 10% 10% 10%; 
+		height:400px ; 
+		border-color: blue orange yellow red; 
+		border-style: solid; 
+		padding: 5% 5%  5% 5%;
+	}
+
+
+	#startbutton{color:blue; background-color: grey; width: 20%; height:15%;color:black;font-size: 35px;font-weight: bold;position:absolute;left:40%;top:42.5%; -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+box-shadow: 10px 10px 5px #6C6C5B;}
+
+.tablestyle{
+    
+	border:1px solid red;
+	width: 40%;
+}
+
+.tabledata{
+	text-align: center;
+	vertical-align: center;
+    
+    height: 20px;
+    background-color: purple;
+    color: white;
+}
+
+.tableheading{
+	text-align: center;
+	vertical-align: center;
+  background-color: grey;
+  color: white;
+}
+
+
+
+
+	
+	</style>
+
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+	
+	<script type="text/javascript">
+    var questions=[
+	["What is the capital of California?","Los Angeles","San Francisco","Sacramento","Santa Clara","C"],
+	["Who is the president of USA?","George Bush","Barack Obama","Mark Zuckerberg","Bill Gates","B"],
+	["What is full form of USA?","United States Association","United Status Average","United Societies Aggregation","United States of America","D"],
+	["Who is the founder of Apple?","Issac Newton","Steve Jobs","George Bush","Satya Nadella","B"],
+	["Which is a state in USA?","New York","Europe","Asia","Africa","A"],
+	["In which state is white house located?","Washigton,DC","California","Arizona","Boston","A"]];
+
+	var currentlist=0
+
+    var marks=[0,0,0,0,0,0]
+
+    var noteindex=0
+
+    $(document).ready(function(){f1()})
+
+
+    function f1()
+   {
+   	$(document.body).append("<h1 style=\"color:green\">Online Exam</h1>")
+
+	$(document.body).append("<div></div>")
+	$('div').attr("id","quizarea")
+	 $('div').css( {"background-color": "lightgreen",
+		"position": "relative",
+		"margin": "5% 10% 10% 10%", 
+		"height":"400px" ,
+		"border-color": "lightgreen", 
+		"border-style": "solid",
+		"padding": "5% 5%  5% 5%"} );
+
+
+    
+   var btn=$('<BUTTON>')
+
+   $('#quizarea').append(btn)
+   btn.text("Start Quiz")
+
+   btn.attr("id","startbutton")
+   btn.attr("style","color:blue")
+
+
+  $('BUTTON').click(function(){ f11()})
+    	
+  }
+
+var rbutton1=$('<INPUT>')
+var rbutton2=$('<INPUT>')
+var rbutton3=$('<INPUT>')
+var rbutton4=$('<INPUT>')
+var rbutton=[rbutton1, rbutton2, rbutton3, rbutton4]
+
+var option=["A","B","C","D"]
+
+
+for(i=0;i<4;i++){
+rbutton[i].attr("id","try");
+    rbutton[i].attr("type","radio");
+    rbutton[i].attr("name","options");
+    rbutton[i].attr("value",option[i])
+}
+
+var forward=$('<BUTTON>')
+forward.attr("id","buttonstyle")
+
+
+function f11(){
+	$('#quizarea').empty()
+	$("#quizarea").append("<h1> &nbsp&nbspQuestion "+(currentlist+1)+" of "+questions.length+"</h1><br>")
+	$('#quizarea h1').css( {
+		"color": "green"} );
+	$("#quizarea").append("<div><p>&nbsp"+questions[currentlist][0]+"</p></div><div>")
+    
+
+
+$($('#quizarea div')[0]).attr('class','questiondisplay')
+$($('#quizarea div')[1]).attr('class','optionsdisplay')
+$($('#quizarea div')[1]).attr('id','trail')
+var temp=questions[currentlist]
+
+
+
+$.each(temp,function(index1,obj1){
+
+if(index1==1 || index1==2 || index1==3 || index1==4)
+{
+
+
+$("#trail").append('&nbsp;&nbsp;&nbsp;&nbsp;')
+rbutton[index1-1].appendTo('#trail')
+$("#trail").append("&nbsp;"+obj1+"<br>")
+
+}
+
+
+})
+
+$("#quizarea").append("</div><br><br>")
+$("#quizarea").append("<div>")
+$($('#quizarea div')[2]).attr('id','try1')
+$("#quizarea").append("</div>")
+
+
+if(currentlist<5){
+
+
+
+$("#try1").append(forward)
+$('#buttonstyle').append("Next")
+
+
+currentlist=currentlist+1;
+$('#buttonstyle').click(function (){
+
+    $($('input[type=radio]')[noteindex]).prop('checked',false);
+	$('#buttonstyle').empty()
+	f11()})
+
+
+}
+
+else
+{
+
+$("#try1").append(forward)
+$('#buttonstyle').append("Submit")
+currentlist=currentlist+1;
+$('#buttonstyle').click(function (){
+
+$($('input[type=radio]')[noteindex]).prop('checked',false);
+	$('#buttonstyle').empty()
+		resultcalculation()})
+}
+
+
+$('input[type=radio]').change( function() {
+  
+   choices = $("input");
+
+   $.each($('input[type=radio]'),function(index,obj1){
+
+  	if($(obj1).is(':checked')){
+            answer = obj1.value;
+            noteindex = index;
+        }
+   
+   })
+
+
+
+    
+
+   if(answer==questions[currentlist-1][5])
+   {
+   
+   $($('#quizarea div')[0]).empty()
+
+   $($('#quizarea div')[0]).append('<p>&nbsp'+questions[currentlist-1][0]+'&nbsp&nbsp<img src=\"images.jpg\" width= \" 20px\" height= \"20px\" ></p>')
+   marks[currentlist-1]=1;
+   
+   }  
+   
+   else
+   {
+   marks[currentlist-1]=0;
+   $($('#quizarea div')[0]).empty()
+
+   $($('#quizarea div')[0]).append('<p>&nbsp'+questions[currentlist-1][0]+'&nbsp&nbsp<img src=\"crossmark.png\" width= \" 20px\" height= \"20px\" ></p>')
+
+    } 
+
+});
+
+}
+
+ function resultcalculation()
+ {
+
+
+$("#quizarea").empty()
+$("#quizarea").append("<h1>Score table</h1>")
+$('h1').css({
+	"color":"blue"
+})
+$("#quizarea").append("<table><thead><tr><th>Question</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>"+marks[0]+"</td></tr><tr><td>2</td><td>"+marks[1]+"</td></tr><tr><td>3</td><td>"+marks[2]+"</td></tr><tr><td>4</td><td>"+marks[3]+"</td></tr><tr><td>5</td><td>"+marks[4]+"</td></tr><tr><td>6</td><td>"+marks[5]+"</td></tr></tbody></table>")
+var sum=marks[0]+marks[1]+marks[2]+marks[3]+marks[4]+marks[5]
+$("#quizarea").append("<p>Questions that are unanswered get a score of zero</p>")
+$("#quizarea").append("<p>The total score is:"+sum+"</p>")
+var btn=$('<BUTTON>')
+
+$('#quizarea').append(btn)
+btn.text("Redo")
+btn.attr("id","buttonstyle")
+btn.attr("style","background-color:grey; border-color: grey grey grey grey")
+$(btn).click(function (){
+
+	
+	marks=[0,0,0,0,0,0]
+
+	currentlist=0
+	noteindex=0
+	f11()
+	
+})
+
+$($('p')[0]).attr("class","small")
+$($('p')[1]).attr("class","result")
+
+$.each($('#quizarea table'),function(index,obj){
+	$(obj).attr("class","tablestyle")
+})
+
+$.each($('#quizarea td'),function(index,obj){
+	$(obj).attr("class","tabledata")
+})
+
+$.each($('#quizarea th'),function(index,obj){
+	$(obj).attr("class","tableheading")
+})
+
+ }
+
+
+
+	</script>
+	</head>
+	<body>
+	</body>
+
+</html>
